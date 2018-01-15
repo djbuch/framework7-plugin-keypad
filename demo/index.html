@@ -14,6 +14,9 @@
         position: relative;
         z-index: 5;
       }
+      .red_border {
+        border: 2px solid red;
+      }
       .content-block.passcode-numpad {
         position: absolute;
         left: 0;
@@ -146,7 +149,9 @@
       });
 
       var numpad = myApp.keypad({
-        input: '#demo-numpad'
+        input: '#demo-numpad',
+        parentSelector : '.item-input',
+        parentClassOnFocus : 'red_border'
       });
       var numpadLimited = myApp.keypad({
         input: '#demo-numpad-limited',

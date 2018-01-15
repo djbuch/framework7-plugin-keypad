@@ -11,6 +11,8 @@ Framework7.prototype.plugins.keypad = function (app) {
             valueMaxLength: null,
             dotButton: true,
             dotCharacter: '.',
+            parentSelector : false,
+            parentClassOnFocus : '',
             buttons: (function () {
                 var dotCharacter = params.dotCharacter || '.';
                 if (typeof params.type === 'undefined' || params.type === 'numpad') {
@@ -500,6 +502,14 @@ Framework7.prototype.plugins.keypad = function (app) {
             }
             if (p.params.onClose) p.params.onClose(p);
 
+
+            if (p.params.parentSelector !== false) {
+                var parent = $(p.input).parents(p.params.parentSelector).eq(0);
+                if (parent !== undefined) {
+                    parent.removeClass(p.params.parentClassOnFocus);
+                }
+            }
+
             // Destroy events
             p.container.find('.picker-items-col').each(function () {
                 p.destroyPickerCol(this);
@@ -511,6 +521,12 @@ Framework7.prototype.plugins.keypad = function (app) {
             var toPopover = isPopover();
 
             if (!p.opened) {
+                if (p.params.parentSelector !== false) {
+                    var parent = $(p.input).parents(p.params.parentSelector).eq(0);
+                    if (parent !== undefined) {
+                        parent.addClass(p.params.parentClassOnFocus);
+                    }
+                }
 
                 // Layout
                 p.layout();
@@ -569,6 +585,12 @@ Framework7.prototype.plugins.keypad = function (app) {
         // Close
         p.close = function () {
             if (!p.opened || p.inline) return;
+            if (p.params.parentSelector !== false) {
+                var parent = $(p.input).parents(p.params.parentSelector).eq(0);
+                if (parent !== undefined) {
+                    parent.removeClass(p.params.parentClassOnFocus);
+                }
+            }
             if (inPopover()) {
                 app.closeModal(p.popover);
                 return;
